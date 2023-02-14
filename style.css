@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;;
+}
+
+#tooltip {
+    opacity: 0;
+}
+
+#subTitle {
+    text-align: center;
+}
