@@ -84,10 +84,16 @@ const render = (data) => {
     .scaleLinear()
     .domain([xMin, xMax])
     .range([padding, w - padding]);
+
   const yScale = d3
     .scaleLinear()
     .domain([yMax + 0.5, yMin - 0.5]) //We are adding some space to top and bottom of yAxis by adding this 0,5
     .range([h - padding, padding]);
+
+  const lScale = d3
+    .scaleLinear()
+    .domain([lMin, lMax])
+    .range([padding, w / 4]);
 
   //Threshold for legend ticks
   const treshold = d3
@@ -105,11 +111,6 @@ const render = (data) => {
       })(lMin, lMax, colors.length)
     )
     .range(colors);
-
-  const lScale = d3
-    .scaleLinear()
-    .domain([lMin, lMax])
-    .range([padding, w / 4]);
 
   //x, y and legend Axis
   const xAxis = d3
