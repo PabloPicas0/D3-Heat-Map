@@ -30,12 +30,15 @@ const legend = svg
   .attr("transform", `translate(600, ${h - 20})`)
   .attr("id", "legend");
 
+//Method for converting month number to string
 const convertMonths = (monthNumber) => {
   switch (monthNumber) {
+    case 0:
+      return "December";
     case 1:
       return "January";
     case 2:
-      return "Febuary";
+      return "February";
     case 3:
       return "March";
     case 4:
@@ -54,14 +57,22 @@ const convertMonths = (monthNumber) => {
       return "October";
     case 11:
       return "November";
-    case 12:
-      return "December";
     default:
       return "";
   }
 };
 
+const handleTempVariance = (baseTemp, variance) => {
+  if (variance < 0) {
+    return `${(baseTemp + variance).toFixed(1)}℃`;
+  }
+  return `${(baseTemp - variance).toFixed(1)}℃`;
+};
+
 const render = (data) => {
+  data.monthlyVariance.forEach((element) => {
+    element.month--;
+  });
   //Base temperature
   const baseTemp = data.baseTemperature;
   const belowAvg = data.monthlyVariance.filter((elem) => elem.variance < 0);
@@ -170,6 +181,35 @@ const render = (data) => {
 
   const dataMap = svg.append("g").attr("transform", `translate(0, -70)`);
 
+  //Tooltip methods
+  const onMouseOver = (event) => {
+    const tooltip = d3.select("#tooltip");
+
+    //Data for tooltip
+    const temp = baseTemp;
+    const month = event.target.__data__.month;
+    const year = event.target.__data__.year;
+    const variance = event.target.__data__.variance;
+
+    tooltip
+      .style("top", `${event.clientY - 10}px`)
+      .style("left", `${event.clientX - 10}px`)
+      .style("opacity", "0.9")
+      .attr("data-year", `${year}`)
+      .html(
+        `${year} - ${convertMonths(month)} <br> Temp: ${handleTempVariance(
+          temp,
+          variance
+        )} <br> Variance: ${variance.toFixed(1)}`
+      );
+  };
+
+  const onMouseOut = () => {
+    const tooltip = d3.select("#tooltip")
+
+    tooltip.style("opacity", "0")
+  }
+
   dataMap
     .selectAll("rect")
     .data(data.monthlyVariance)
@@ -177,12 +217,17 @@ const render = (data) => {
     .append("rect")
     .attr("x", (d) => xScale(d.year))
     .attr("y", (d) => yScale(d.month))
+    .on("mouseover", onMouseOver)//TODO: When height is equal to yScale tooltip need to be above hovered bar 
+    .on("mouseout", onMouseOut)
+    .attr("data-month", (d) => d.month)
+    .attr("data-year", (d) => d.year)
+    .attr("data-temp", (d) => handleTempVariance(baseTemp, d.variance))
     .attr("class", "cell")
     .attr("width", 5)
-    .attr("height", 40)
+    .attr("height", 40)//TODO: height equal yScale
     .attr("fill", "navy");
 
-  console.log(data);
+  console.log(data, data.monthlyVariance[0].variance.toFixed(1));
 };
 
 fetch(url)
