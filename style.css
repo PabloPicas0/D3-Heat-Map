@@ -3,7 +3,9 @@
 }
 
 :root {
-  --hover-color: #d105f9
+  --text-color: whitesmoke;
+  --hover-color: #d105f9;
+  --animation-timing: 250ms;
 }
 
 body {
@@ -17,14 +19,14 @@ body {
 #tooltip {
   position: absolute;
   background: black;
-  color: whitesmoke;
+  color: var(--text-color);
   opacity: 0;
-  padding: 10px 10px;
+  padding: 10px;
   border-radius: 10px;
   pointer-events: none;
   line-height: 1.5;
   transform: translate(-40%, -90%);
-  transition: opacity 250ms ease-out ;
+  transition: opacity var(--animation-timing) ease-out;
 }
 
 #title {
@@ -36,5 +38,5 @@ body {
 }
 
 .cell:hover {
-  fill: var(--hover-color)
+  fill: var(--hover-color);
 }

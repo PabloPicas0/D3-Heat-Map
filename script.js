@@ -217,7 +217,7 @@ const render = (data) => {
     .append("rect")
     .attr("x", (d) => xScale(d.year))
     .attr("y", (d) => yScale(d.month))
-    .on("mouseover", onMouseOver)//TODO: When height is equal to yScale tooltip need to be above hovered bar 
+    .on("mouseover", onMouseOver)//TODO: When height is equal to yAxus tooltip need to be above hovered cell  
     .on("mouseout", onMouseOut)
     .attr("data-month", (d) => d.month)
     .attr("data-year", (d) => d.year)
