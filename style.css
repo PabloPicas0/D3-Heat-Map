@@ -3,6 +3,7 @@
 }
 
 :root {
+  --main-color: #c5c1b9;
   --text-color: whitesmoke;
   --hover-color: #d105f9;
   --animation-timing: 250ms;
@@ -14,6 +15,7 @@ body {
   align-items: start;
   height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--main-color);
 }
 
 #tooltip {
