@@ -62,10 +62,7 @@ const convertMonths = (monthNumber) => {
 };
 
 const handleTempVariance = (baseTemp, variance) => {
-  if (variance < 0) {
-    return `${(baseTemp + variance).toFixed(1)}℃`;
-  }
-  return `${(baseTemp - variance).toFixed(1)}℃`;
+  return `${(baseTemp + variance).toFixed(1)}℃`;
 };
 
 const render = (data) => {
@@ -74,8 +71,6 @@ const render = (data) => {
   });
   //Base temperature
   const { baseTemperature } = data;
-  const belowAvg = data.monthlyVariance.filter((elem) => elem.variance < 0);
-  const aboveAvg = data.monthlyVariance.filter((elem) => elem.variance > 0);
 
   //Obtain lowest and highest years for xScale
   const xMin = d3.min(data.monthlyVariance, (data) => data.year);
@@ -86,8 +81,8 @@ const render = (data) => {
   const yMax = d3.max(data.monthlyVariance, (data) => data.month);
 
   ////Lowest and highest temperatures for legendScale
-  const lMin = d3.min(belowAvg, (data) => baseTemperature + data.variance);
-  const lMax = d3.max(aboveAvg, (data) => baseTemperature + data.variance);
+  const lMin = d3.min(data.monthlyVariance, (data) => baseTemperature + data.variance);
+  const lMax = d3.max(data.monthlyVariance, (data) => baseTemperature + data.variance);
 
   //Dimensions for cells
   const cellWidth = (innerWidth * 12) / data.monthlyVariance.length;
